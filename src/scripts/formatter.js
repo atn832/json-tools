@@ -38,20 +38,24 @@ var Formatter = {
             var object = value,
                 props = [],
                 sortedProps,
+                prevIndent,
                 indent;
             for (p in value) {
                 props.push(p);
             }
             sortedProps = props.sort();
 
+            options.tabCount--;
+            prevIndent = formatTab(options);
+            options.tabCount++;
             indent = formatTab(options);
             options.tabCount++;
             var r = "{\n" +
                 sortedProps.map(function(key) {
                     var v = object[key];
                     return indent + formatKey(key, options) + ": " + Formatter.stringify(v, options);
-                }).join("\n") +
-                "\n}";
+                }).join(",\n") +
+                "\n" + prevIndent + "}";
             options.tabCount--;
             return r;
         }
