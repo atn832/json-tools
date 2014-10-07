@@ -22,6 +22,9 @@ var Formatter = {
         if (!options.tabCount) {
             options.tabCount = 1;
         }
+        if (options.quoteAroundKeys === undefined) {
+            options.quoteAroundKeys = true;
+        }
         // options.spacesPerTab
         // options.quote = none, single, double
         if (typeof value === "number") {
@@ -74,7 +77,8 @@ function formatTab(options) {
 }
 
 function formatKey(key, options) {
-    // TODO: take into account keys with dashes
+    if (!options.quoteAroundKeys)
+        return key;
     return options.quote + key + options.quote;
 }
 

@@ -23,7 +23,7 @@ describe('Main', function () {
         var str = Formatter.stringify({name: "John", numbers: [1, 3, 5]});
         expect(str).toEqual('{\n    "name": "John",\n    "numbers": [1, 3, 5]\n}');
     });
-    it('should stringify some object with an array', function () {
+    it('should recursively stringify some object', function () {
         var str = Formatter.stringify({name: "John", numbers: [1, 3, 5], obj: {key: "value"}});
         expect(str).toEqual([
             '{',
@@ -34,4 +34,29 @@ describe('Main', function () {
             '    }',
             '}'].join("\n"));
     });
+    it('should recursively stringify some object with options', function () {
+        var str = Formatter.stringify(
+            {
+                name: "John",
+                numbers: [1, 3, 5],
+                obj: {
+                    key: "value"
+                }
+            }, {
+                spacesPerTab: 2,
+                quote: "'",
+                quoteAroundKeys : false
+            }
+            );
+        expect(str).toEqual([
+            '{',
+            '  name: \'John\',',
+            '  numbers: [1, 3, 5],',
+            '  obj: {',
+            '    key: \'value\'',
+            '  }',
+            '}'].join("\n"));
+    });
+    // todo: escape quotes
+    // todo: support keys with dashes
 });
